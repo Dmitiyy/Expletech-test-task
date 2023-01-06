@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Suspense, lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Container } from '@chakra-ui/react';
+import { Loading } from './components/Loading';
+
+const Table = lazy(() => {
+  return import('./pages/Table').then(module => ({ default: module.Table }));
+});
+const CreateRecord = lazy(() => {
+  return import('./pages/CreateRecord').then(module => ({ default: module.CreateRecord }));
+});
+const EditRecord = lazy(() => {
+  return import('./pages/EditRecord').then(module => ({ default: module.EditRecord }));
+});
+
+const router = createBrowserRouter([
+  { path: '/', element: <Table /> },
+  { path: '/create', element: <CreateRecord /> },
+  { path: '/edit/:id', element: <EditRecord /> }
+]);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container mt="30px" maxW="4xl">
+      <Suspense fallback={<Loading />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </Container>
+  )
 }
 
 export default App;
