@@ -3,15 +3,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Container } from '@chakra-ui/react';
 import { Loading } from './components/Loading';
 
-const Table = lazy(() => {
-  return import('./pages/Table').then(module => ({ default: module.Table }));
-});
-const CreateRecord = lazy(() => {
-  return import('./pages/CreateRecord').then(module => ({ default: module.CreateRecord }));
-});
-const EditRecord = lazy(() => {
-  return import('./pages/EditRecord').then(module => ({ default: module.EditRecord }));
-});
+const expandModule = (name: string) => {
+  return import(`./pages/${name}`).then(module => ({ default: module[name] }));
+}
+
+const Table = lazy(() => expandModule('Table'));
+const CreateRecord = lazy(() => expandModule('CreateRecord'));
+const EditRecord = lazy(() => expandModule('EditRecord'));
 
 const router = createBrowserRouter([
   { path: '/', element: <Table /> },

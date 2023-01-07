@@ -1,7 +1,8 @@
 import { FC, Fragment } from "react";
-import { Tr, Th, Td, Button } from '@chakra-ui/react';
+import { Tr, Th, Td, Button, Center } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { RootState } from "../store";
 
 export const Rows: FC = () => {
@@ -19,10 +20,14 @@ export const Rows: FC = () => {
               <Td>{country}</Td>
               <Td>{age}</Td>
               <Td>
-                <Button
-                  leftIcon={<EditIcon boxSize={5} color="#000" />}
-                  className="edit-btn"
-                >Edit</Button>
+                <Center>
+                  <Link to={`edit/${id}`}>
+                    <Button
+                      leftIcon={<EditIcon boxSize={5} color="#000" />}
+                      className="edit-btn"
+                    >Edit</Button>
+                  </Link>
+                </Center>
               </Td>
             </Tr>
           )
